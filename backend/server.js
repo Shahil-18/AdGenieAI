@@ -3,7 +3,6 @@ const cors = require("cors");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
-const cloudinary = require("./config/cloudinary");
 
 const authRoutes = require("./routes/authRoutes");
 const businessRoutes = require("./routes/businessRoutes");
@@ -13,19 +12,25 @@ const uploadRoutes = require("./routes/uploadRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const subscriptionRoutes = require("./routes/subscriptionRoutes");
 
-
 const app = express();
 
 connectDB();
 
-cloudinary.api
-  .ping()
-  .then(() => console.log("Cloudinary Connected ✅"))
-  .catch((err) => console.log("Cloudinary Error ❌", err.message));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://adgenie-ai.vercel.app",
+  "https://adgenie-ai-git-main-shahil-18s-projects.vercel.app",
+];
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -46,7 +51,6 @@ app.use("/api/campaigns", campaignRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/subscription", subscriptionRoutes);
-
 
 const PORT = process.env.PORT || 5000;
 
