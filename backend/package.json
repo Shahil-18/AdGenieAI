@@ -1,0 +1,36 @@
+{
+  "name": "adgenie-ai-backend",
+  "version": "1.0.0",
+  "description": "Backend API for AdGenie AI SaaS Platform",
+  "main": "server.js",
+  "scripts": {
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+
+  },
+  "keywords": [
+    "adgenie",
+    "mern",
+    "saas",
+    "ai",
+    "advertisement-generator"
+  ],
+  "author": "Shahil Sharma",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.17.0",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^7.2.0",
+    "mongoose": "^8.15.1",
+    "multer": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
