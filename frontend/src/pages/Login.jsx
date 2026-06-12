@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
 import { Sparkles } from "lucide-react";
 
@@ -26,8 +25,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await loginUser(formData);
-      login(res.data.user, res.data.token);
+      await login(formData);
       navigate("/dashboard");
     } catch (error) {
       setMessage(error.response?.data?.message || "Login failed");

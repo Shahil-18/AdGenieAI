@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
 import { Sparkles } from "lucide-react";
 
 function Register() {
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -25,8 +26,8 @@ function Register() {
     setLoading(true);
 
     try {
-      await registerUser(formData);
-      navigate("/login");
+      await register(formData);
+      navigate("/dashboard");
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed");
     } finally {
