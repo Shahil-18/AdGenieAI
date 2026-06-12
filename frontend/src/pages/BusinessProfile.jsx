@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
 import { saveBusiness, getBusiness } from "../api/businessApi";
 import { uploadLogo } from "../api/uploadApi";
-import { Upload } from "lucide-react";
+import { Upload, Building2, CheckCircle, AlertCircle } from "lucide-react";
 
 function BusinessProfile() {
   const [formData, setFormData] = useState({
@@ -16,6 +16,7 @@ function BusinessProfile() {
 
   const [message, setMessage] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     loadBusiness();
@@ -57,9 +58,9 @@ function BusinessProfile() {
         logoUrl: res.data.logoUrl,
       }));
 
-      setMessage("Logo uploaded successfully ✅");
+      setMessage("Logo uploaded successfully.");
     } catch (error) {
-      setMessage("Logo upload failed ❌");
+      setMessage("Logo upload failed.");
     } finally {
       setUploading(false);
     }
@@ -69,31 +70,49 @@ function BusinessProfile() {
     e.preventDefault();
 
     try {
+      setSaving(true);
       await saveBusiness(formData);
-      setMessage("Business profile saved successfully ✅");
+      setMessage("Business profile saved successfully.");
     } catch (error) {
-      setMessage("Error saving profile ❌");
+      setMessage("Error saving profile.");
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
     <DashboardLayout>
-      <p className="text-sm font-bold text-[#6b7280] uppercase tracking-wider">
-        Brand Settings
-      </p>
+      <div>
+        <p className="text-xs font-semibold text-[#6b7280] uppercase tracking-wide">
+          Brand Settings
+        </p>
+        <h1 className="page-title mt-2">Business Profile</h1>
+        <p className="page-subtitle mt-3 max-w-2xl">
+          Manage your company identity, logo, website, brand color, and campaign positioning.
+        </p>
+      </div>
 
-      <h1 className="text-4xl font-black mt-2">Business Profile</h1>
+      {message && (
+        <div className="card mt-6 flex items-center gap-3">
+          {message.toLowerCase().includes("failed") ||
+          message.toLowerCase().includes("error") ? (
+            <AlertCircle size={18} className="text-[#dc2626]" />
+          ) : (
+            <CheckCircle size={18} className="text-[#16a34a]" />
+          )}
+          <p className="text-sm font-medium">{message}</p>
+        </div>
+      )}
 
-      <p className="text-[#6b7280] mt-3">
-        Manage your company identity, website, logo and campaign branding.
-      </p>
-
-      <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-8 mt-8">
-        <div className="bg-white border border-[#e5e7eb] rounded-2xl p-8">
-          <h2 className="text-2xl font-black">Brand Preview</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-6 mt-6">
+        <div className="card">
+          <h2 className="section-title">Brand Preview</h2>
+          <p className="page-subtitle mt-1">
+            This preview appears across your workspace.
+          </p>
 
           <div className="mt-8 flex flex-col items-center text-center">
-            <div className="w-28 h-28 rounded-3xl border border-[#e5e7eb] bg-[#f9fafb] flex items-center justify-center overflow-hidden">
+            <div className="w-24 h-24 rounded-lg border border-[#e5e7eb] bg-[#f9fafb] flex items-center justify-center overflow-hidden">
               {formData.logoUrl ? (
                 <img
                   src={formData.logoUrl}
@@ -102,7 +121,7 @@ function BusinessProfile() {
                 />
               ) : (
                 <span
-                  className="text-4xl font-black text-white w-full h-full flex items-center justify-center"
+                  className="text-3xl font-bold text-white w-full h-full flex items-center justify-center"
                   style={{ background: formData.brandColor }}
                 >
                   {formData.businessName?.charAt(0) || "A"}
@@ -110,38 +129,39 @@ function BusinessProfile() {
               )}
             </div>
 
-            <h3 className="text-2xl font-black mt-5">
+            <h3 className="text-[18px] font-semibold mt-5">
               {formData.businessName || "Your Business"}
             </h3>
 
-            <p className="text-[#6b7280] mt-1">
+            <p className="page-subtitle mt-1">
               {formData.industry || "Industry"}
             </p>
 
-            <p className="text-[#4b5563] mt-4">
+            <p className="text-sm text-[#4b5563] mt-4 leading-6 max-w-md">
               {formData.slogan || "Your business slogan appears here."}
             </p>
 
             {formData.website && (
-              <p className="text-sm text-[#6b7280] mt-3">{formData.website}</p>
+              <p className="text-xs text-[#6b7280] mt-3">{formData.website}</p>
             )}
           </div>
         </div>
 
-        <div className="bg-white border border-[#e5e7eb] rounded-2xl p-8">
-          {message && (
-            <div className="mb-6 bg-[#f3f4f6] border border-[#e5e7eb] p-4 rounded-xl font-semibold">
-              {message}
-            </div>
-          )}
+        <div className="card">
+          <div className="flex items-center gap-2">
+            <Building2 size={18} className="text-[#2563eb]" />
+            <h2 className="section-title">Profile Details</h2>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5 mt-6">
             <div>
-              <label className="font-bold">Business Logo</label>
+              <label className="text-sm font-medium">Business Logo</label>
 
-              <label className="mt-3 flex items-center justify-center gap-3 border border-dashed border-[#d1d5db] rounded-2xl p-6 cursor-pointer hover:bg-[#f9fafb]">
-                <Upload size={20} />
-                {uploading ? "Uploading..." : "Upload Logo"}
+              <label className="mt-2 flex items-center justify-center gap-3 border border-dashed border-[#d1d5db] rounded-lg p-6 cursor-pointer hover:bg-[#f9fafb]">
+                <Upload size={18} className="text-[#2563eb]" />
+                <span className="text-sm font-medium">
+                  {uploading ? "Uploading..." : "Upload Logo"}
+                </span>
                 <input
                   type="file"
                   accept="image/*"
@@ -151,60 +171,72 @@ function BusinessProfile() {
               </label>
             </div>
 
-            <input
-              type="text"
+            <Field
+              label="Business Name"
               name="businessName"
-              placeholder="Business Name"
               value={formData.businessName}
               onChange={handleChange}
-              className="w-full bg-[#f9fafb] border border-[#e5e7eb] p-4 rounded-xl"
+              placeholder="AdGenie AI"
             />
 
-            <input
-              type="text"
+            <Field
+              label="Industry"
               name="industry"
-              placeholder="Industry"
               value={formData.industry}
               onChange={handleChange}
-              className="w-full bg-[#f9fafb] border border-[#e5e7eb] p-4 rounded-xl"
+              placeholder="Marketing Technology"
             />
 
-            <input
-              type="text"
+            <Field
+              label="Website"
               name="website"
-              placeholder="Website"
               value={formData.website || ""}
               onChange={handleChange}
-              className="w-full bg-[#f9fafb] border border-[#e5e7eb] p-4 rounded-xl"
+              placeholder="https://example.com"
             />
 
-            <input
-              type="text"
+            <Field
+              label="Business Slogan"
               name="slogan"
-              placeholder="Business Slogan"
               value={formData.slogan}
               onChange={handleChange}
-              className="w-full bg-[#f9fafb] border border-[#e5e7eb] p-4 rounded-xl"
+              placeholder="Create better ads in seconds"
             />
 
             <div>
-              <label className="font-bold block mb-2">Brand Color</label>
+              <label className="text-sm font-medium block mb-2">Brand Color</label>
               <input
                 type="color"
                 name="brandColor"
                 value={formData.brandColor}
                 onChange={handleChange}
-                className="w-24 h-14"
+                className="w-20 h-11 rounded-md border border-[#e5e7eb]"
               />
             </div>
 
-            <button className="w-full bg-[#111827] text-white p-4 rounded-xl font-black">
-              Save Business Profile
+            <button disabled={saving} className="btn-primary w-full">
+              {saving ? "Saving..." : "Save Business Profile"}
             </button>
           </form>
         </div>
       </div>
     </DashboardLayout>
+  );
+}
+
+function Field({ label, name, value, onChange, placeholder }) {
+  return (
+    <div>
+      <label className="text-sm font-medium block mb-2">{label}</label>
+      <input
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="input-modern"
+      />
+    </div>
   );
 }
 
