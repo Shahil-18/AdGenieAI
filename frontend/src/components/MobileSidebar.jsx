@@ -39,22 +39,22 @@ function MobileSidebar({ open, onClose, business }) {
     <div className="fixed inset-0 z-50 xl:hidden">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      <aside className="absolute left-0 top-0 h-full w-[82%] max-w-[340px] bg-white border-r border-[#e5e7eb] p-6 overflow-y-auto">
-        <div className="flex items-center justify-between">
-          <Link to="/dashboard" onClick={onClose} className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-[#111827] text-white overflow-hidden flex items-center justify-center font-black">
+      <aside className="absolute left-0 top-0 h-full w-[84%] max-w-[340px] bg-[#0f1117] text-white p-4 overflow-y-auto">
+        <div className="h-14 flex items-center justify-between border-b border-white/10 pb-4">
+          <Link to="/dashboard" onClick={onClose} className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-lg bg-white text-[#0f1117] overflow-hidden flex items-center justify-center font-bold">
               {business?.logoUrl ? (
-                <img src={business.logoUrl} className="w-full h-full object-cover" />
+                <img src={business.logoUrl} alt="Logo" className="w-full h-full object-cover" />
               ) : (
                 business?.businessName?.charAt(0) || "A"
               )}
             </div>
 
-            <div>
-              <h1 className="font-black text-[#111827]">
+            <div className="min-w-0">
+              <h1 className="text-sm font-semibold truncate">
                 {business?.businessName || "AdGenie AI"}
               </h1>
-              <p className="text-xs text-[#6b7280]">
+              <p className="text-xs text-slate-400 truncate">
                 {business?.industry || "Marketing Suite"}
               </p>
             </div>
@@ -62,13 +62,13 @@ function MobileSidebar({ open, onClose, business }) {
 
           <button
             onClick={onClose}
-            className="w-10 h-10 border border-[#e5e7eb] rounded-xl flex items-center justify-center"
+            className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:bg-white/5"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
-        <nav className="mt-8 space-y-1">
+        <nav className="py-4 space-y-1">
           {navItems.map((item) => {
             const active = location.pathname === item.path;
 
@@ -77,10 +77,10 @@ function MobileSidebar({ open, onClose, business }) {
                 key={item.path}
                 to={item.path}
                 onClick={onClose}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold ${
+                className={`h-11 flex items-center gap-3 px-3 rounded-md text-sm font-medium border-l-2 ${
                   active
-                    ? "bg-[#111827] text-white"
-                    : "text-[#4b5563] hover:bg-[#f3f4f6]"
+                    ? "bg-[#2563eb]/10 text-[#60a5fa] border-[#2563eb]"
+                    : "border-transparent text-slate-400 hover:bg-white/5 hover:text-white"
                 }`}
               >
                 {item.icon}

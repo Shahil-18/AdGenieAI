@@ -24,17 +24,17 @@ function Billing() {
 
   return (
     <DashboardLayout>
-      <p className="text-sm font-bold text-[#6b7280] uppercase tracking-wider">
-        Billing
-      </p>
+      <div>
+        <p className="text-xs font-semibold text-[#6b7280] uppercase tracking-wide">
+          Billing
+        </p>
+        <h1 className="page-title mt-2">Subscription Plans</h1>
+        <p className="page-subtitle mt-3">
+          Choose a plan based on your monthly campaign generation needs.
+        </p>
+      </div>
 
-      <h1 className="text-4xl font-black mt-2">Subscription Plans</h1>
-
-      <p className="text-[#6b7280] mt-3">
-        Choose a plan based on your monthly campaign needs.
-      </p>
-
-      <div className="grid md:grid-cols-3 gap-6 mt-8">
+      <div className="grid md:grid-cols-3 gap-4 mt-6">
         <PlanCard
           name="Free"
           price="₹0"

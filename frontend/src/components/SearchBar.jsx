@@ -2,12 +2,12 @@ import { Search } from "lucide-react";
 
 function SearchBar() {
   return (
-    <div className="hidden md:flex items-center gap-3 bg-slate-100 px-4 py-3 rounded-2xl w-[360px]">
-      <Search size={18} className="text-slate-500" />
+    <div className="hidden md:flex items-center gap-2 w-[360px] h-10 bg-[#f8f9fa] border border-[#e5e7eb] rounded-lg px-3">
+      <Search size={16} className="text-[#6b7280]" />
       <input
         type="text"
-        placeholder="Search campaigns, tools, profile..."
-        className="bg-transparent outline-none w-full text-sm"
+        placeholder="Search campaigns, reports, tools..."
+        className="bg-transparent outline-none text-sm w-full text-[#111827] placeholder:text-[#9ca3af]"
       />
     </div>
   );

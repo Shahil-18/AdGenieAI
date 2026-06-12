@@ -31,17 +31,17 @@ function Workspace() {
 
   return (
     <DashboardLayout>
-      <p className="text-sm font-bold text-[#6b7280] uppercase tracking-wider">
-        Workspace
-      </p>
+      <div>
+        <p className="text-xs font-semibold text-[#6b7280] uppercase tracking-wide">
+          Workspace
+        </p>
+        <h1 className="page-title mt-2">Business Workspace</h1>
+        <p className="page-subtitle mt-3">
+          Manage brand status, usage, and recent campaign activity.
+        </p>
+      </div>
 
-      <h1 className="text-4xl font-black mt-2">Business Workspace</h1>
-
-      <p className="text-[#6b7280] mt-3">
-        Manage your brand identity, usage and recent campaign activity.
-      </p>
-
-      <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6 mt-6">
         <BrandProfileCard
           business={business}
           campaignsCount={analytics.totalCampaigns || 0}

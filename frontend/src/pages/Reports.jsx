@@ -26,61 +26,64 @@ function Reports() {
 
   return (
     <DashboardLayout>
-      <p className="text-sm font-bold text-[#6b7280] uppercase tracking-wider">
-        Reports
-      </p>
+      <div>
+        <p className="text-xs font-semibold text-[#6b7280] uppercase tracking-wide">
+          Reports
+        </p>
+        <h1 className="page-title mt-2">Campaign Reports</h1>
+        <p className="page-subtitle mt-3">
+          Review, copy, and export generated marketing assets.
+        </p>
+      </div>
 
-      <h1 className="text-4xl font-black mt-2">Campaign Reports</h1>
-
-      <p className="text-[#6b7280] mt-3">
-        Review, copy and download generated campaign assets.
-      </p>
-
-      <div className="bg-white border border-[#e5e7eb] rounded-2xl mt-8 overflow-hidden">
-        <div className="grid grid-cols-[150px_1fr_190px_260px] bg-[#f9fafb] px-6 py-4 text-sm font-black text-[#6b7280]">
-          <p>Type</p>
-          <p>Campaign Output</p>
-          <p>Date</p>
-          <p>Actions</p>
-        </div>
-
-        {campaigns.length === 0 && (
-          <div className="p-12 text-center">
-            <FileText className="mx-auto text-[#9ca3af]" size={36} />
-            <p className="text-[#6b7280] mt-4">No campaigns saved yet.</p>
+      <div className="card mt-6 overflow-x-auto p-0">
+        <div className="min-w-[900px]">
+          <div className="grid grid-cols-[140px_1fr_190px_260px] bg-[#f9fafb] border-b border-[#e5e7eb] px-4 py-3 text-xs font-semibold text-[#6b7280] uppercase">
+            <p>Type</p>
+            <p>Campaign Output</p>
+            <p>Date</p>
+            <p>Actions</p>
           </div>
-        )}
 
-        {campaigns.map((item) => (
-          <div
-            key={item._id}
-            className="grid grid-cols-[150px_1fr_190px_260px] gap-4 px-6 py-5 border-t border-[#f1f1f1] items-start"
-          >
-            <p className="capitalize font-black text-[#111827]">
-              {item.type}
-            </p>
-
-            <p className="text-[#4b5563] line-clamp-3 whitespace-pre-wrap">
-              {item.output}
-            </p>
-
-            <p className="text-sm text-[#6b7280]">
-              {new Date(item.createdAt).toLocaleString()}
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => copyText(item.output)}
-                className="bg-[#111827] text-white px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold"
-              >
-                <Copy size={15} />
-                Copy
-              </button>
-
-              <ExportActions title={`${item.type}-campaign`} content={item.output} />
+          {campaigns.length === 0 && (
+            <div className="p-12 text-center">
+              <FileText className="mx-auto text-[#9ca3af]" size={32} />
+              <p className="font-semibold mt-4">No reports yet</p>
+              <p className="page-subtitle mt-1">Generated campaigns will appear here.</p>
             </div>
-          </div>
-        ))}
+          )}
+
+          {campaigns.map((item, index) => (
+            <div
+              key={item._id}
+              className={`grid grid-cols-[140px_1fr_190px_260px] gap-4 px-4 py-4 border-b border-[#f1f5f9] hover:bg-[#f9fafb] ${
+                index % 2 === 1 ? "bg-[#fafafa]" : "bg-white"
+              }`}
+            >
+              <p className="capitalize font-semibold text-sm">{item.type}</p>
+
+              <p className="text-sm text-[#4b5563] line-clamp-3 whitespace-pre-wrap">
+                {item.output}
+              </p>
+
+              <p className="text-sm text-[#6b7280]">
+                {new Date(item.createdAt).toLocaleString()}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => copyText(item.output)}
+                  className="btn-secondary inline-flex items-center gap-2"
+                >
+                  <Copy size={15} />
+                  Copy
+                </button>
+
+                <ExportActions title={`${item.type}-campaign`} content={item.output} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </DashboardLayout>
   );
