@@ -21,7 +21,7 @@ export default function DashboardLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf7ef] text-black">
+    <div className="min-h-screen overflow-x-hidden bg-[#fbf7ef] text-black">
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[#fbf7ef]" />
         <div className="aurora aurora-one" />
@@ -37,9 +37,7 @@ export default function DashboardLayout() {
           </div>
           <div>
             <h1 className="text-lg font-black">AdGenie AI</h1>
-            <p className="text-xs font-bold text-black/40">
-              AI Creative Studio
-            </p>
+            <p className="text-xs font-bold text-black/40">AI Creative Studio</p>
           </div>
         </div>
 
@@ -76,7 +74,7 @@ export default function DashboardLayout() {
         </div>
       </aside>
 
-      <main className="relative z-10 px-4 py-4 lg:ml-80">
+      <main className="relative z-10 w-full px-4 py-4 lg:ml-80 lg:w-[calc(100%-20rem)]">
         <div className="mb-4 flex items-center justify-between rounded-[1.5rem] border border-white/50 bg-white/65 px-5 py-4 shadow-sm backdrop-blur-2xl lg:hidden">
           <h1 className="font-black">AdGenie AI</h1>
           <button
@@ -87,7 +85,7 @@ export default function DashboardLayout() {
           </button>
         </div>
 
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto w-full max-w-7xl overflow-hidden">
           <Outlet />
         </div>
       </main>
