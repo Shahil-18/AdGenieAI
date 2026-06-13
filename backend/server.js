@@ -16,27 +16,41 @@ connectDB();
 
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:3000",
   "https://ad-genie-ai-cmpm.vercel.app",
+  "https://adgenie-ai.vercel.app",
+  "https://adgenieai.vercel.app",
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        origin.endsWith(".vercel.app")
-      ) {
-        return callback(null, true);
-      }
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      origin.endsWith(".vercel.app")
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Not allowed by CORS: ${origin}`));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200,
+};
 
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
