@@ -1,153 +1,101 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
+// Public Pages
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 
+// Dashboard Layout
+import DashboardLayout from "../layouts/DashboardLayout";
+
+// Protected Pages
 import Dashboard from "../pages/Dashboard";
 import BusinessProfile from "../pages/BusinessProfile";
 import CaptionGenerator from "../pages/CaptionGenerator";
 import HashtagGenerator from "../pages/HashtagGenerator";
-import WhatsAppGenerator from "../pages/WhatsAppGenerator";
-import PosterGenerator from "../pages/PosterGenerator";
+import WhatsAppCampaign from "../pages/WhatsAppCampaign";
 import CampaignHistory from "../pages/CampaignHistory";
-import Workspace from "../pages/Workspace";
 import Reports from "../pages/Reports";
-import PricingPage from "../pages/PricingPage";
 import Settings from "../pages/Settings";
-import AdminDashboard from "../pages/AdminDashboard";
-import Billing from "../pages/Billing";
 
-import ProtectedRoute from "../components/ProtectedRoute";
+// Auth Context
+import { useAuth } from "../context/AuthContext";
 
-function AppRoutes() {
+function ProtectedRoute({ children }) {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
+export default function AppRoutes() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
+    <Routes>
+      {/* ========================= */}
+      {/* PUBLIC ROUTES */}
+      {/* ========================= */}
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* ========================= */}
+      {/* PROTECTED ROUTES */}
+      {/* ========================= */}
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
 
         <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
+          path="/business-profile"
+          element={<BusinessProfile />}
         />
 
         <Route
-          path="/business"
-          element={
-            <ProtectedRoute>
-              <BusinessProfile />
-            </ProtectedRoute>
-          }
+          path="/captions"
+          element={<CaptionGenerator />}
         />
 
         <Route
-          path="/caption-generator"
-          element={
-            <ProtectedRoute>
-              <CaptionGenerator />
-            </ProtectedRoute>
-          }
+          path="/hashtags"
+          element={<HashtagGenerator />}
         />
 
         <Route
-          path="/hashtag-generator"
-          element={
-            <ProtectedRoute>
-              <HashtagGenerator />
-            </ProtectedRoute>
-          }
+          path="/whatsapp"
+          element={<WhatsAppCampaign />}
         />
 
         <Route
-          path="/whatsapp-generator"
-          element={
-            <ProtectedRoute>
-              <WhatsAppGenerator />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/poster-generator"
-          element={
-            <ProtectedRoute>
-              <PosterGenerator />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/campaign-history"
-          element={
-            <ProtectedRoute>
-              <CampaignHistory />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/workspace"
-          element={
-            <ProtectedRoute>
-              <Workspace />
-            </ProtectedRoute>
-          }
+          path="/history"
+          element={<CampaignHistory />}
         />
 
         <Route
           path="/reports"
-          element={
-            <ProtectedRoute>
-              <Reports />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/pricing"
-          element={
-            <ProtectedRoute>
-              <PricingPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/billing"
-          element={
-            <ProtectedRoute>
-              <Billing />
-            </ProtectedRoute>
-          }
+          element={<Reports />}
         />
 
         <Route
           path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
+          element={<Settings />}
         />
+      </Route>
 
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+      {/* ========================= */}
+      {/* FALLBACK */}
+      {/* ========================= */}
+
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
-
-export default AppRoutes;

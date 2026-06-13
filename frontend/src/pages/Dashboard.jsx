@@ -1,200 +1,103 @@
-import { useEffect, useState } from "react";
-import DashboardLayout from "../layouts/DashboardLayout";
-import { getAnalytics, getCampaigns } from "../api/campaignApi";
 import { Link } from "react-router-dom";
-import {
-  Sparkles,
-  Hash,
-  MessageCircle,
-  Image,
-  ArrowRight,
-  BarChart3,
-  Building2,
-  Activity,
-} from "lucide-react";
 
-function Dashboard() {
-  const [analytics, setAnalytics] = useState({});
-  const [recent, setRecent] = useState([]);
+export default function Dashboard() {
+  const quickActions = [
+    { title: "Generate Caption", desc: "Create sales-ready ad copy.", icon: "✦" },
+    { title: "Generate Hashtags", desc: "Get targeted hashtag sets.", icon: "#" },
+    { title: "WhatsApp Campaign", desc: "Write customer-friendly messages.", icon: "✉" },
+    { title: "Poster Prompt", desc: "Create premium poster ideas.", icon: "▣" },
+  ];
 
-  useEffect(() => {
-    loadDashboard();
-  }, []);
+  const stats = [
+    { label: "Campaigns", value: "128" },
+    { label: "AI Generations", value: "82" },
+    { label: "Reports", value: "16" },
+    { label: "Brand Ready", value: "92%" },
+  ];
 
-  const loadDashboard = async () => {
-    try {
-      const analyticsRes = await getAnalytics();
-      const campaignsRes = await getCampaigns();
-
-      setAnalytics(analyticsRes.data);
-      setRecent(campaignsRes.data.campaigns.slice(0, 5));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const recent = [
+    "Caption generated for product launch",
+    "WhatsApp campaign created",
+    "Hashtag set prepared",
+  ];
 
   return (
-    <DashboardLayout>
-      <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-        <div>
-          <p className="text-xs font-semibold text-[#6b7280] uppercase tracking-wide">
-            Workspace Overview
-          </p>
-          <h1 className="page-title mt-2">Marketing Dashboard</h1>
-          <p className="page-subtitle mt-3 max-w-2xl">
-            Generate campaign content, manage brand identity, and track marketing activity from one clean workspace.
-          </p>
-        </div>
+    <div className="space-y-8">
+      <section className="rounded-[2rem] bg-black p-8 text-white shadow-2xl shadow-black/20">
+        <p className="text-sm font-bold text-white/50">AdGenie AI Dashboard</p>
+        <h1 className="mt-3 text-4xl font-black tracking-[-0.04em]">
+          Let’s create something that sells.
+        </h1>
 
-        <div className="flex flex-wrap gap-3">
-          <Link to="/business" className="btn-secondary inline-flex items-center gap-2">
-            <Building2 size={18} />
-            Brand Profile
-          </Link>
-
-          <Link to="/caption-generator" className="btn-primary inline-flex items-center gap-2">
-            Generate Campaign <ArrowRight size={18} />
-          </Link>
-        </div>
-      </div>
-
-      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-8">
-        <Stat title="Total Campaigns" value={analytics.totalCampaigns || 0} trend="All generated content" />
-        <Stat title="Captions Generated" value={analytics.totalCaptions || 0} trend="Social ad copy" />
-        <Stat title="Hashtag Sets" value={analytics.totalHashtags || 0} trend="Discovery assets" />
-        <Stat title="WhatsApp Campaigns" value={analytics.totalWhatsApp || 0} trend="Message campaigns" />
-      </section>
-
-      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
-        <ToolCard
-          icon={<Sparkles size={18} />}
-          title="Caption Generator"
-          text="Create concise campaign captions for social platforms."
-          link="/caption-generator"
-        />
-        <ToolCard
-          icon={<Hash size={18} />}
-          title="Hashtag Generator"
-          text="Generate organized hashtag sets for better discovery."
-          link="/hashtag-generator"
-        />
-        <ToolCard
-          icon={<MessageCircle size={18} />}
-          title="WhatsApp Campaigns"
-          text="Prepare customer-ready promotional messages."
-          link="/whatsapp-generator"
-        />
-        <ToolCard
-          icon={<Image size={18} />}
-          title="Poster Prompts"
-          text="Create structured prompts for marketing creatives."
-          link="/poster-generator"
-        />
-      </section>
-
-      <section className="grid grid-cols-1 lg:grid-cols-[1.5fr_0.8fr] gap-6 mt-6">
-        <div className="card">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h2 className="section-title">Recent Campaigns</h2>
-              <p className="page-subtitle mt-1">
-                Latest generated assets across your workspace.
-              </p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {stats.map((item) => (
+            <div key={item.label} className="rounded-3xl border border-white/10 bg-white/[0.07] p-5">
+              <p className="text-sm font-bold text-white/45">{item.label}</p>
+              <h2 className="mt-2 text-3xl font-black">{item.value}</h2>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <Link
-              to="/campaign-history"
-              className="text-sm text-[#2563eb] font-semibold inline-flex items-center gap-2 hover:text-[#1d4ed8]"
+      <section>
+        <h2 className="mb-4 text-2xl font-black tracking-tight">Quick Actions</h2>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {quickActions.map((item) => (
+            <div
+              key={item.title}
+              className="rounded-[1.7rem] border border-black/10 bg-white/75 p-6 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-black/10"
             >
-              View All <ArrowRight size={16} />
-            </Link>
-          </div>
-
-          <div className="mt-5 divide-y divide-[#e5e7eb]">
-            {recent.length === 0 && (
-              <div className="border border-dashed border-[#d1d5db] rounded-lg p-10 text-center">
-                <BarChart3 className="mx-auto text-[#9ca3af]" size={28} />
-                <p className="font-semibold mt-3">No campaigns yet</p>
-                <p className="page-subtitle mt-1">
-                  Generate your first campaign to start tracking activity.
-                </p>
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-black text-xl font-black text-white">
+                {item.icon}
               </div>
-            )}
+              <h3 className="mt-6 text-lg font-black">{item.title}</h3>
+              <p className="mt-2 text-sm font-semibold leading-6 text-black/50">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-            {recent.map((item) => (
-              <div key={item._id} className="py-4 hover:bg-[#f9fafb] px-2 -mx-2 rounded-md">
-                <div className="flex justify-between gap-4">
-                  <p className="capitalize font-semibold text-sm text-[#111827]">
-                    {item.type}
-                  </p>
-                  <p className="text-xs text-[#6b7280]">
-                    {new Date(item.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
+      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+        <div className="rounded-[2rem] border border-black/10 bg-white/75 p-7 shadow-sm">
+          <p className="text-sm font-black uppercase tracking-[0.18em] text-black/35">AI Workspace</p>
+          <h2 className="mt-3 text-3xl font-black tracking-[-0.04em]">What do you want to sell?</h2>
 
-                <p className="text-sm text-[#4b5563] mt-2 line-clamp-2 leading-6">
-                  {item.output}
+          <div className="mt-6 grid gap-3">
+            <input
+              className="rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
+              placeholder="Product name"
+            />
+            <textarea
+              className="min-h-32 rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
+              placeholder="Add offer, audience, tone..."
+            />
+            <button className="rounded-2xl bg-black px-6 py-4 text-sm font-black text-white transition hover:bg-[#262626]">
+              Generate Campaign
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded-[2rem] border border-black/10 bg-white/75 p-7 shadow-sm">
+          <h2 className="text-2xl font-black">Recent Activity</h2>
+          <div className="mt-5 space-y-3">
+            {recent.map((item, i) => (
+              <div key={item} className="rounded-2xl bg-[#f6f4ef] p-4">
+                <p className="text-sm font-black">{item}</p>
+                <p className="mt-1 text-xs font-bold text-black/40">
+                  {i === 0 ? "2 mins ago" : i === 1 ? "15 mins ago" : "Yesterday"}
                 </p>
               </div>
             ))}
           </div>
-        </div>
 
-        <div className="space-y-4">
-          <Panel
-            icon={<Activity size={18} />}
-            title="Workspace Status"
-            text="Your production deployment is active with authentication, campaigns, exports, and reporting enabled."
-          />
-
-          <Panel
-            icon={<Building2 size={18} />}
-            title="Recommended Next Step"
-            text="Complete your business profile and upload a brand logo to improve output consistency."
-          />
+          <Link
+            to="/business-profile"
+            className="mt-5 block rounded-2xl border border-black/10 px-5 py-4 text-center text-sm font-black hover:bg-black hover:text-white"
+          >
+            Complete Brand Profile
+          </Link>
         </div>
       </section>
-    </DashboardLayout>
-  );
-}
-
-function Stat({ title, value, trend }) {
-  return (
-    <div className="card">
-      <p className="text-xs text-[#6b7280] font-medium">{title}</p>
-      <h2 className="text-[28px] font-bold tracking-[-0.02em] mt-2">{value}</h2>
-      <p className="text-xs text-[#6b7280] mt-2">{trend}</p>
     </div>
   );
 }
-
-function ToolCard({ icon, title, text, link }) {
-  return (
-    <Link to={link} className="card hover:border-[#2563eb] block">
-      <div className="w-9 h-9 rounded-lg bg-[#eff6ff] text-[#2563eb] flex items-center justify-center">
-        {icon}
-      </div>
-
-      <h3 className="text-[18px] font-semibold mt-4">{title}</h3>
-      <p className="text-sm text-[#6b7280] mt-2 leading-6">{text}</p>
-
-      <p className="mt-4 text-[#2563eb] text-sm font-semibold flex items-center gap-2">
-        Open Tool <ArrowRight size={16} />
-      </p>
-    </Link>
-  );
-}
-
-function Panel({ icon, title, text }) {
-  return (
-    <div className="card">
-      <div className="flex items-center gap-2 text-[#2563eb]">
-        {icon}
-        <h3 className="section-title">{title}</h3>
-      </div>
-      <p className="page-subtitle mt-3">{text}</p>
-    </div>
-  );
-}
-
-export default Dashboard;

@@ -1,168 +1,306 @@
-import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
-import {
-  Sparkles,
-  Hash,
-  MessageCircle,
-  Image,
-  BarChart3,
-  Shield,
-  ArrowRight,
-  CheckCircle,
-} from "lucide-react";
 
-function Home() {
+export default function Home() {
+  const features = [
+    "AI Captions",
+    "Hashtags",
+    "WhatsApp Ads",
+    "Poster Prompts",
+    "Analytics",
+    "Brand Profile",
+  ];
+
+  const plans = [
+    {
+      name: "Free",
+      price: "₹0",
+      desc: "Start testing AdGenie AI",
+      active: false,
+    },
+    {
+      name: "Starter",
+      price: "₹299",
+      desc: "For daily campaign creation",
+      active: true,
+    },
+    {
+      name: "Pro",
+      price: "₹999",
+      desc: "For growing businesses",
+      active: false,
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#f8f9fa] text-[#111827]">
-      <Navbar />
+    <div className="min-h-screen bg-[#f6f4ef] text-[#111111] overflow-hidden">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute top-[-160px] left-[-120px] h-[420px] w-[420px] rounded-full bg-violet-300/30 blur-3xl" />
+        <div className="absolute right-[-120px] top-[220px] h-[420px] w-[420px] rounded-full bg-emerald-300/25 blur-3xl" />
+        <div className="absolute bottom-[-180px] left-1/2 h-[360px] w-[520px] -translate-x-1/2 rounded-full bg-black/10 blur-3xl" />
+      </div>
 
-      <section className="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-16 items-center">
-        <div>
-          <div className="inline-flex items-center gap-2 bg-white border border-[#e5e7eb] px-3 py-2 rounded-full text-sm font-semibold text-[#2563eb]">
-            <Sparkles size={16} />
-            AI marketing workspace
+      {/* Navbar */}
+      <nav className="sticky top-0 z-50 border-b border-black/10 bg-[#f6f4ef]/80 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-black text-white shadow-lg shadow-black/20">
+              <span className="text-lg font-black">A</span>
+            </div>
+            <div>
+              <h1 className="text-lg font-black tracking-tight">AdGenie AI</h1>
+              <p className="text-[11px] font-medium text-black/50">
+                AI Marketing Workspace
+              </p>
+            </div>
+          </Link>
+
+          <div className="hidden items-center gap-8 md:flex">
+            <a href="#features" className="text-sm font-semibold text-black/60 hover:text-black">
+              Features
+            </a>
+            <a href="#pricing" className="text-sm font-semibold text-black/60 hover:text-black">
+              Pricing
+            </a>
+            <a href="#reviews" className="text-sm font-semibold text-black/60 hover:text-black">
+              Reviews
+            </a>
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold tracking-[-0.04em] leading-tight mt-6">
-            Create campaign content with enterprise-grade simplicity.
-          </h1>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/login"
+              className="hidden rounded-full px-5 py-2 text-sm font-bold text-black/70 transition hover:bg-black/5 sm:block"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="rounded-full bg-black px-5 py-2.5 text-sm font-bold text-white shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#242424]"
+            >
+              Start Free
+            </Link>
+          </div>
+        </div>
+      </nav>
 
-          <p className="text-[#6b7280] text-lg leading-8 mt-6 max-w-xl">
-            AdGenie AI helps small businesses generate captions, hashtags,
-            WhatsApp campaigns, poster prompts, reports, and brand assets from
-            one professional dashboard.
+      {/* Hero */}
+      <section className="mx-auto grid max-w-7xl items-center gap-12 px-6 pb-20 pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:pt-24">
+        <div>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-xs font-black text-black shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            AI workspace for small businesses
+          </div>
+
+          <h2 className="max-w-3xl text-5xl font-black leading-[0.95] tracking-[-0.06em] text-black md:text-7xl">
+            Create ads that look ready to sell.
+          </h2>
+
+          <p className="mt-7 max-w-xl text-lg font-medium leading-8 text-black/60">
+            Generate captions, hashtags, WhatsApp campaigns and poster ideas in
+            one clean dashboard.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 mt-8">
-            <Link to="/register" className="btn-primary inline-flex items-center justify-center gap-2">
-              Start Free <ArrowRight size={18} />
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/register"
+              className="rounded-2xl bg-black px-7 py-4 text-center text-sm font-black text-white shadow-2xl shadow-black/25 transition hover:-translate-y-1 hover:bg-[#262626]"
+            >
+              Start Free
             </Link>
-
-            <Link to="/login" className="btn-secondary text-center">
+            <Link
+              to="/login"
+              className="rounded-2xl border border-black/10 bg-white/80 px-7 py-4 text-center text-sm font-black text-black shadow-sm transition hover:-translate-y-1 hover:bg-white"
+            >
               Login
             </Link>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-3 mt-10">
-            <Trust icon={<Shield size={16} />} text="JWT Auth" />
-            <Trust icon={<BarChart3 size={16} />} text="Analytics" />
-            <Trust icon={<CheckCircle size={16} />} text="Reports" />
+          <div className="mt-8 flex flex-wrap gap-3">
+            {["JWT Auth", "Analytics", "Reports"].map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-xs font-black text-black/70"
+              >
+                {item}
+              </span>
+            ))}
           </div>
         </div>
 
-        <div className="bg-white border border-[#e5e7eb] rounded-lg p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-          <div className="bg-[#0f1117] rounded-lg p-6 text-white">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <p className="text-sm font-semibold">AdGenie Workspace</p>
-              <span className="badge bg-[#dcfce7] text-[#16a34a]">Live</span>
-            </div>
+        {/* Hero Card */}
+        <div className="relative">
+          <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-black/20 via-violet-400/20 to-emerald-400/20 blur-2xl" />
 
-            <div className="grid grid-cols-2 gap-3 mt-6">
-              <Preview title="Captions" value="128" />
-              <Preview title="Hashtags" value="82" />
-              <Preview title="WhatsApp" value="41" />
-              <Preview title="Reports" value="16" />
-            </div>
+          <div className="relative rounded-[2rem] border border-black/10 bg-white/75 p-4 shadow-2xl shadow-black/15 backdrop-blur-xl">
+            <div className="rounded-[1.5rem] bg-[#101114] p-5 text-white">
+              <div className="mb-6 flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-black text-white/50">
+                    AdGenie Workspace
+                  </p>
+                  <h3 className="mt-1 text-xl font-black">Campaign Studio</h3>
+                </div>
+                <span className="rounded-full bg-emerald-400 px-3 py-1 text-xs font-black text-black">
+                  Live
+                </span>
+              </div>
 
-            <div className="bg-white rounded-lg p-4 mt-4 text-[#111827]">
-              <p className="text-sm font-semibold">Recent Campaign</p>
-              <p className="text-sm text-[#6b7280] mt-2 leading-6">
-                Generate clean, customer-ready ad captions for your next product campaign.
-              </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  ["Captions", "128"],
+                  ["Hashtags", "82"],
+                  ["WhatsApp", "41"],
+                  ["Reports", "16"],
+                ].map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="rounded-2xl border border-white/10 bg-white/[0.06] p-4"
+                  >
+                    <p className="text-xs font-bold text-white/40">{label}</p>
+                    <p className="mt-2 text-3xl font-black">{value}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 rounded-2xl bg-white p-5 text-black">
+                <p className="text-xs font-black text-black/40">
+                  Recent Campaign
+                </p>
+                <h4 className="mt-2 text-lg font-black">
+                  Product launch captions ready
+                </h4>
+                <div className="mt-4 h-2 rounded-full bg-black/10">
+                  <div className="h-2 w-[78%] rounded-full bg-black" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="features" className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center">
-          <h2 className="text-[28px] font-bold tracking-[-0.02em]">
-            Everything required for daily marketing
-          </h2>
-          <p className="text-[#6b7280] mt-3">
-            Built for business owners, freelancers, and marketing teams.
+      {/* Features */}
+      <section id="features" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-black/40">
+              Features
+            </p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.04em]">
+              Everything for daily ads.
+            </h2>
+          </div>
+          <p className="max-w-md text-sm font-medium leading-6 text-black/55">
+            Simple tools designed for fast campaign creation.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4 mt-10">
-          <Feature icon={<Sparkles size={18} />} title="AI Captions" />
-          <Feature icon={<Hash size={18} />} title="Hashtag Sets" />
-          <Feature icon={<MessageCircle size={18} />} title="WhatsApp Campaigns" />
-          <Feature icon={<Image size={18} />} title="Poster Prompts" />
-          <Feature icon={<BarChart3 size={18} />} title="Analytics" />
-          <Feature icon={<Shield size={18} />} title="Secure Workspace" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((item, index) => (
+            <div
+              key={item}
+              className="group rounded-[1.7rem] border border-black/10 bg-white/70 p-6 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-black/10"
+            >
+              <div className="mb-8 grid h-12 w-12 place-items-center rounded-2xl bg-black text-white">
+                <span className="text-sm font-black">0{index + 1}</span>
+              </div>
+              <h3 className="text-xl font-black tracking-tight">{item}</h3>
+              <p className="mt-3 text-sm font-medium leading-6 text-black/55">
+                Clean, fast and ready for your next campaign.
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section id="pricing" className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-[28px] font-bold tracking-[-0.02em] text-center">
-          Simple plans for growing teams
-        </h2>
+      {/* Pricing */}
+      <section id="pricing" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-10 text-center">
+          <p className="text-sm font-black uppercase tracking-[0.2em] text-black/40">
+            Pricing
+          </p>
+          <h2 className="mt-3 text-4xl font-black tracking-[-0.04em]">
+            Simple plans.
+          </h2>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-4 mt-10">
-          <Price name="Free" price="₹0" />
-          <Price name="Starter" price="₹299" active />
-          <Price name="Pro" price="₹999" />
+        <div className="grid gap-5 lg:grid-cols-3">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`relative rounded-[2rem] border p-7 transition hover:-translate-y-1 ${
+                plan.active
+                  ? "border-black bg-black text-white shadow-2xl shadow-black/25"
+                  : "border-black/10 bg-white/75 text-black shadow-sm hover:shadow-xl hover:shadow-black/10"
+              }`}
+            >
+              {plan.active && (
+                <span className="absolute right-6 top-6 rounded-full bg-white px-3 py-1 text-xs font-black text-black">
+                  Popular
+                </span>
+              )}
+
+              <h3 className="text-lg font-black">{plan.name}</h3>
+              <p
+                className={`mt-2 text-sm font-medium ${
+                  plan.active ? "text-white/55" : "text-black/50"
+                }`}
+              >
+                {plan.desc}
+              </p>
+
+              <div className="mt-8 flex items-end gap-2">
+                <span className="text-5xl font-black tracking-[-0.05em]">
+                  {plan.price}
+                </span>
+                <span
+                  className={`mb-2 text-sm font-bold ${
+                    plan.active ? "text-white/45" : "text-black/45"
+                  }`}
+                >
+                  /month
+                </span>
+              </div>
+
+              <div className="mt-8 space-y-3 text-sm font-bold">
+                <p>✓ Campaign generation</p>
+                <p>✓ Reports dashboard</p>
+                <p>✓ Brand profile</p>
+              </div>
+
+              <Link
+                to="/register"
+                className={`mt-8 block rounded-2xl px-5 py-4 text-center text-sm font-black transition ${
+                  plan.active
+                    ? "bg-white text-black hover:bg-white/90"
+                    : "bg-black text-white hover:bg-[#242424]"
+                }`}
+              >
+                Choose Plan
+              </Link>
+            </div>
+          ))}
         </div>
       </section>
 
-      <footer className="border-t border-[#e5e7eb] py-8 text-center text-sm text-[#6b7280]">
-        AdGenie AI © 2026 — Built by Shahil Sharma
+      {/* Reviews */}
+      <section id="reviews" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="rounded-[2rem] border border-black/10 bg-white/70 p-8 text-center shadow-sm md:p-12">
+          <p className="mx-auto max-w-3xl text-3xl font-black leading-tight tracking-[-0.04em]">
+            “Made for owners who want faster marketing without complicated tools.”
+          </p>
+          <p className="mt-5 text-sm font-black text-black/40">
+            AdGenie AI Workspace
+          </p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-black/10 px-6 py-8 text-center">
+        <p className="text-sm font-bold text-black/45">
+          © 2026 AdGenie AI — Built by Shahil Sharma
+        </p>
       </footer>
     </div>
   );
 }
-
-function Trust({ icon, text }) {
-  return (
-    <div className="card flex items-center gap-2">
-      <span className="text-[#2563eb]">{icon}</span>
-      <p className="text-sm font-semibold">{text}</p>
-    </div>
-  );
-}
-
-function Preview({ title, value }) {
-  return (
-    <div className="bg-white/5 border border-white/10 rounded-lg p-4">
-      <p className="text-xs text-slate-400">{title}</p>
-      <p className="text-2xl font-bold mt-1">{value}</p>
-    </div>
-  );
-}
-
-function Feature({ icon, title }) {
-  return (
-    <div className="card">
-      <div className="w-9 h-9 rounded-lg bg-[#eff6ff] text-[#2563eb] flex items-center justify-center">
-        {icon}
-      </div>
-      <h3 className="section-title mt-4">{title}</h3>
-      <p className="page-subtitle mt-2">
-        Professional-grade workflow built for speed and consistency.
-      </p>
-    </div>
-  );
-}
-
-function Price({ name, price, active }) {
-  return (
-    <div className={`card ${active ? "border-[#2563eb]" : ""}`}>
-      <h3 className="section-title">{name}</h3>
-      <p className="text-4xl font-bold mt-4">{price}</p>
-      <p className="page-subtitle mt-1">per month</p>
-
-      <div className="space-y-3 mt-6 text-sm text-[#4b5563]">
-        <p>✓ Campaign generation</p>
-        <p>✓ Reports dashboard</p>
-        <p>✓ Brand profile</p>
-      </div>
-
-      <Link to="/register" className={`block text-center mt-6 ${active ? "btn-primary" : "btn-secondary"}`}>
-        Choose Plan
-      </Link>
-    </div>
-  );
-}
-
-export default Home;

@@ -1,123 +1,92 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Sparkles } from "lucide-react";
 
-function Register() {
+export default function Register() {
   const navigate = useNavigate();
   const { register } = useAuth();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setLoading(true);
+    setError("");
 
     try {
-      await register(formData);
+      await register(form);
       navigate("/dashboard");
-    } catch (error) {
-      setMessage(error.response?.data?.message || "Registration failed");
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed");
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] grid lg:grid-cols-2">
-      <div className="hidden lg:flex bg-[#0f1117] text-white p-12 flex-col justify-between">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-white text-[#0f1117] rounded-lg flex items-center justify-center">
-            <Sparkles size={20} />
-          </div>
-          <span className="font-semibold">AdGenie AI</span>
-        </Link>
-
-        <div>
-          <h1 className="text-4xl font-bold tracking-[-0.03em] leading-tight">
-            Build your marketing workspace in minutes.
+    <div className="min-h-screen bg-[#f6f4ef] px-5 py-10 text-black">
+      <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-6xl items-center gap-8 lg:grid-cols-2">
+        <section className="rounded-[2rem] bg-black p-8 text-white shadow-2xl shadow-black/20">
+          <p className="text-sm font-black uppercase tracking-[0.18em] text-white/40">Start Free</p>
+          <h1 className="mt-4 text-5xl font-black tracking-[-0.06em]">
+            Build your AI-powered ad system.
           </h1>
-          <p className="text-slate-400 mt-4 leading-7">
-            Create campaigns, organize brand identity, and generate AI marketing assets.
+          <p className="mt-5 text-sm font-semibold leading-7 text-white/50">
+            One dashboard for captions, hashtags, WhatsApp campaigns and brand content.
           </p>
-        </div>
-      </div>
+        </section>
 
-      <div className="flex items-center justify-center p-6">
-        <div className="w-full max-w-md card p-8">
-          <h1 className="page-title">Create account</h1>
-          <p className="page-subtitle mt-2">Start using AdGenie AI today.</p>
+        <section className="rounded-[2rem] border border-black/10 bg-white/75 p-7 shadow-xl shadow-black/10">
+          <h2 className="text-3xl font-black tracking-tight">Create Account</h2>
 
-          {message && (
-            <div className="mt-5 border border-[#fee2e2] bg-[#fef2f2] text-[#dc2626] rounded-lg p-3 text-sm font-medium">
-              {message}
-            </div>
+          {error && (
+            <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
+              {error}
+            </p>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5 mt-6">
-            <div>
-              <label className="text-sm font-medium block mb-2">Name</label>
-              <input
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                className="input-modern"
-                placeholder="Your name"
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
+            <input
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Full name"
+              className="rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
+            />
 
-            <div>
-              <label className="text-sm font-medium block mb-2">Email</label>
-              <input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="input-modern"
-                placeholder="you@example.com"
-              />
-            </div>
+            <input
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
+            />
 
-            <div>
-              <label className="text-sm font-medium block mb-2">Password</label>
-              <input
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="input-modern"
-                placeholder="••••••••"
-              />
-            </div>
+            <input
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
+            />
 
-            <button disabled={loading} className="btn-primary w-full">
-              {loading ? "Creating account..." : "Create Account"}
+            <button className="rounded-2xl bg-black px-6 py-4 text-sm font-black text-white hover:bg-[#262626]">
+              Create Account
             </button>
           </form>
 
-          <p className="text-sm text-[#6b7280] mt-6 text-center">
-            Already have an account?{" "}
-            <Link to="/login" className="text-[#2563eb] font-semibold">
+          <p className="mt-5 text-center text-sm font-bold text-black/50">
+            Already have account?{" "}
+            <Link to="/login" className="text-black underline">
               Login
             </Link>
           </p>
-        </div>
+        </section>
       </div>
     </div>
   );
 }
-
-export default Register;
