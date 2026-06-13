@@ -1,97 +1,93 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { MessageCircle, Copy, ArrowLeft } from "lucide-react";
+import { generateWhatsApp } from "../api/aiApi";
 
-export default function WhatsAppCampaign() {
-  const [form, setForm] = useState({
+function WhatsAppGenerator() {
+  const [formData, setFormData] = useState({
     product: "",
     offer: "",
     audience: "",
   });
 
-  const [output, setOutput] = useState("");
+  const [campaign, setCampaign] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const generateCampaign = () => {
-    setOutput(
-      `Hi 👋\n\nIntroducing ${form.product || "your product"} — made for ${
-        form.audience || "your customers"
-      }.\n\n${form.offer || "Special offer available now."}\n\nReply YES to know more.`
-    );
+  const handleGenerate = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
+
+    try {
+      const res = await generateWhatsApp(formData);
+      setCampaign(res.data.message);
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Failed to generate campaign");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const copyText = () => {
-    navigator.clipboard.writeText(output);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(campaign);
+    setMessage("Copied to clipboard ✅");
   };
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-      <section className="rounded-[2rem] bg-black p-8 text-white shadow-2xl shadow-black/20">
-        <p className="text-sm font-black uppercase tracking-[0.18em] text-white/40">
-          WhatsApp Campaign
-        </p>
+    <div className="min-h-screen bg-slate-950 text-white p-8">
+      <div className="max-w-5xl mx-auto">
+        <Link to="/dashboard" className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8">
+          <ArrowLeft size={18} /> Back to Dashboard
+        </Link>
 
-        <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">
-          Create customer-ready WhatsApp ads.
-        </h1>
+        <div className="grid lg:grid-cols-2 gap-8">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-green-600 flex items-center justify-center">
+                <MessageCircle />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black">WhatsApp Campaign</h1>
+                <p className="text-slate-400">Generate customer-friendly marketing messages.</p>
+              </div>
+            </div>
 
-        <p className="mt-5 text-sm font-semibold leading-7 text-white/50">
-          Write short, direct and sales-focused messages for your audience.
-        </p>
-      </section>
+            {message && <div className="mb-5 bg-green-600/20 border border-green-500/40 rounded-xl p-4">{message}</div>}
 
-      <section className="rounded-[2rem] border border-black/10 bg-white/75 p-7 shadow-sm">
-        <h2 className="text-2xl font-black tracking-tight">Campaign Details</h2>
+            <form onSubmit={handleGenerate} className="space-y-5">
+              <input name="product" value={formData.product} onChange={handleChange} placeholder="Product or Service" className="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 outline-none focus:border-green-500" />
+              <input name="offer" value={formData.offer} onChange={handleChange} placeholder="Offer e.g. 20% off / Free delivery" className="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 outline-none focus:border-green-500" />
+              <input name="audience" value={formData.audience} onChange={handleChange} placeholder="Target Audience" className="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 outline-none focus:border-green-500" />
 
-        <div className="mt-6 grid gap-4">
-          <input
-            name="product"
-            value={form.product}
-            onChange={handleChange}
-            placeholder="Product name"
-            className="rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
-          />
-
-          <input
-            name="offer"
-            value={form.offer}
-            onChange={handleChange}
-            placeholder="Offer"
-            className="rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
-          />
-
-          <input
-            name="audience"
-            value={form.audience}
-            onChange={handleChange}
-            placeholder="Target audience"
-            className="rounded-2xl border border-black/10 bg-[#f6f4ef] px-5 py-4 text-sm font-bold outline-none focus:border-black"
-          />
-
-          <button
-            onClick={generateCampaign}
-            className="rounded-2xl bg-black px-6 py-4 text-sm font-black text-white transition hover:bg-[#262626]"
-          >
-            Generate Campaign
-          </button>
-        </div>
-
-        {output && (
-          <div className="mt-6 rounded-[1.5rem] bg-[#f6f4ef] p-5">
-            <p className="whitespace-pre-line text-sm font-bold leading-7 text-black/70">
-              {output}
-            </p>
-
-            <button
-              onClick={copyText}
-              className="mt-5 rounded-2xl border border-black/10 px-5 py-3 text-sm font-black hover:bg-black hover:text-white"
-            >
-              Copy Message
-            </button>
+              <button disabled={loading} className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-60 p-4 rounded-xl font-bold">
+                {loading ? "Generating..." : "Generate Campaign"}
+              </button>
+            </form>
           </div>
-        )}
-      </section>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-black">Generated Campaign</h2>
+              {campaign && (
+                <button onClick={handleCopy} className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl">
+                  <Copy size={18} /> Copy
+                </button>
+              )}
+            </div>
+
+            <div className="min-h-[420px] bg-slate-950 border border-slate-800 rounded-2xl p-6 whitespace-pre-wrap text-slate-300 leading-relaxed">
+              {campaign || "Your WhatsApp campaign will appear here."}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+
+export default WhatsAppGenerator;
