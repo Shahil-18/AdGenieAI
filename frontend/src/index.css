@@ -12,51 +12,145 @@ html {
 body {
   margin: 0;
   font-family: "Plus Jakarta Sans", sans-serif;
-  background: #f6f4ef;
-  color: #111111;
+  background: #fbf7ef;
+  color: #111;
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-16px) rotate(0.5deg);
-  }
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
+a {
+  text-decoration: none;
 }
 
-@keyframes drift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(35px, -25px, 0) scale(1.08);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
+.aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.75;
+  mix-blend-mode: multiply;
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+.aurora-one {
+  width: 720px;
+  height: 720px;
+  left: -180px;
+  top: -120px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent 62%);
+  animation: auroraOne 14s ease-in-out infinite;
 }
 
-.float-card {
-  animation: float 6s ease-in-out infinite;
+.aurora-two {
+  width: 760px;
+  height: 760px;
+  right: -220px;
+  top: 120px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.75), transparent 62%);
+  animation: auroraTwo 18s ease-in-out infinite;
 }
 
-.blob-drift {
-  animation: drift 12s ease-in-out infinite;
+.aurora-three {
+  width: 720px;
+  height: 720px;
+  left: 28%;
+  bottom: -260px;
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.65), transparent 62%);
+  animation: auroraThree 20s ease-in-out infinite;
 }
 
-.marquee-track {
-  animation: marquee 22s linear infinite;
+.aurora-four {
+  width: 620px;
+  height: 620px;
+  left: 44%;
+  top: 18%;
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.55), transparent 62%);
+  animation: auroraFour 16s ease-in-out infinite;
+}
+
+.noise-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(0,0,0,0.12) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(0,0,0,0.08) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.spark-dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.22);
+  animation-name: sparkMove;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.creative-orbit {
+  animation: orbitPulse 9s ease-in-out infinite;
+}
+
+.floating-card {
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+.floating-card-2 {
+  animation: floatCardTwo 7s ease-in-out infinite;
+}
+
+.floating-card-3 {
+  animation: floatCardThree 8s ease-in-out infinite;
+}
+
+@keyframes auroraOne {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, 70px) scale(1.18); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes auroraTwo {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-150px, 80px) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes auroraThree {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(80px, -120px) scale(1.12); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes auroraFour {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-80px, 90px) scale(1.2); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes sparkMove {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  20% { opacity: 0.7; }
+  100% { transform: translateY(-180px) translateX(80px); opacity: 0; }
+}
+
+@keyframes orbitPulse {
+  0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.45; }
+  50% { transform: translate(-50%, -50%) scale(1.08) rotate(6deg); opacity: 0.75; }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.45; }
+}
+
+@keyframes floatCard {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes floatCardTwo {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-22px) rotate(-1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes floatCardThree {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
 }

@@ -1,153 +1,51 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 
+import DashboardLayout from "../layouts/DashboardLayout";
 import Dashboard from "../pages/Dashboard";
 import BusinessProfile from "../pages/BusinessProfile";
 import CaptionGenerator from "../pages/CaptionGenerator";
 import HashtagGenerator from "../pages/HashtagGenerator";
-import WhatsAppGenerator from "../pages/WhatsAppGenerator";
-import PosterGenerator from "../pages/PosterGenerator";
+import WhatsAppCampaign from "../pages/WhatsAppCampaign";
 import CampaignHistory from "../pages/CampaignHistory";
-import Workspace from "../pages/Workspace";
 import Reports from "../pages/Reports";
-import PricingPage from "../pages/PricingPage";
 import Settings from "../pages/Settings";
-import AdminDashboard from "../pages/AdminDashboard";
-import Billing from "../pages/Billing";
 
-import ProtectedRoute from "../components/ProtectedRoute";
+import { useAuth } from "../context/AuthContext";
 
-function AppRoutes() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/business"
-          element={
-            <ProtectedRoute>
-              <BusinessProfile />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/caption-generator"
-          element={
-            <ProtectedRoute>
-              <CaptionGenerator />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/hashtag-generator"
-          element={
-            <ProtectedRoute>
-              <HashtagGenerator />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/whatsapp-generator"
-          element={
-            <ProtectedRoute>
-              <WhatsAppGenerator />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/poster-generator"
-          element={
-            <ProtectedRoute>
-              <PosterGenerator />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/campaign-history"
-          element={
-            <ProtectedRoute>
-              <CampaignHistory />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/workspace"
-          element={
-            <ProtectedRoute>
-              <Workspace />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/reports"
-          element={
-            <ProtectedRoute>
-              <Reports />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/pricing"
-          element={
-            <ProtectedRoute>
-              <PricingPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/billing"
-          element={
-            <ProtectedRoute>
-              <Billing />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+function ProtectedRoute({ children }) {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" replace />;
 }
 
-export default AppRoutes;
+export default function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/business-profile" element={<BusinessProfile />} />
+        <Route path="/captions" element={<CaptionGenerator />} />
+        <Route path="/hashtags" element={<HashtagGenerator />} />
+        <Route path="/whatsapp" element={<WhatsAppCampaign />} />
+        <Route path="/history" element={<CampaignHistory />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
+
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
